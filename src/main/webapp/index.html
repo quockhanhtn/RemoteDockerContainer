@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col m-5">
+                <h1 class="display-4">Remote docker container</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <!--Create container-->
+                <div class="row mb-5">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">Create container</div>
+                            <form id="create-container-form" class="card-body">
+                                <!--Container name-->
+                                <div class="form-group">
+                                    <label for="container-name">Container name</label>
+                                    <input type="text" class="form-control" id="container-name" name="container-name">
+                                </div>
+                                <!--No of CPU-->
+                                <div class="form-group">
+                                    <label for="no-of-cpu">No of CPU</label>
+                                    <select class="form-control" id="no-of-cpu" name="no-of-cpu">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </div>
+                                <!--Memory-->
+                                <div class="form-group">
+                                    <label for="container-memory">Memory</label>
+                                    <select class="form-control" id="container-memory" name="container-memory">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </div>
+                                <div class="row">
+                                    <div class="col m-auto p-auto text-center">
+                                        <a id="btn-check-container" class="btn btn-primary"
+                                            href="javascript:void(0)">Create container</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!--Start/ stop container-->
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">Start/ stop container</div>
+                            <form id="update-container-form" class="card-body">
+                                <div class="form-group">
+                                    <label for="update-container-name">Container name</label>
+                                    <input type="text" class="form-control" id="update-container-name"
+                                        name="update-container-name">
+                                </div>
+                                <div class="row">
+                                    <div class="col m-auto p-auto text-center">
+                                        <a id="btn-check-container" class="btn btn-primary"
+                                            href="javascript:void(0)">Check status</a>
+                                        <a id="btn-start-container" class="btn btn-success"
+                                            href="javascript:void(0)">Start container</a>
+                                        <a id="btn-stop-container" class="btn btn-danger" href="javascript:void(0)">Stop
+                                            container</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">Log</div>
+                    <textarea class="card-body form-control" id="exec-log" rows="30"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!--jQuery-->
+    <script src="./js/jquery-3.5.1.min.js"></script>
+    <!--Bootstrap Js-->
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            const apiUrl = '/api/container';
+            $('#btn-start-container').click(function () {
+                $.ajax({
+                    url: apiUrl,
+                    method: 'GET',
+                    data: {
+                        name: 'testcontainer',
+                        action: 'stop',
+                    },
+                    success: function (data) {
+                        let rs = data.toString();
+                    },
+                    cache: false
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

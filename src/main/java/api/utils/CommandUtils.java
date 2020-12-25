@@ -38,6 +38,7 @@ public class CommandUtils {
          }
       } catch (Exception e) {
          e.printStackTrace();
+         result += e.getMessage();
       } finally {
          if (channel != null) {
             channel.disconnect();

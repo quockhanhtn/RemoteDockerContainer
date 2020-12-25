@@ -16,6 +16,7 @@ public class TestServlet extends HttpServlet{
       String cmd = req.getParameter("cmd");
       String result = CommandUtils.Execute(cmd);
       req.setAttribute("execResult", result);
+      req.setAttribute("cmd", cmd);
 
       getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
    }
