@@ -1,0 +1,30 @@
+body {
+    font-family: arial;
+  }
+  
+  .title-bar {
+    height: 2.5rem;
+    line-height: 2.5rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #242424;
+    font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    border-radius: .5rem .5rem 0 0;
+  }
+  
+  #cmd-textarea {
+    width: 100%;
+    background-color: #4b1d3f;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+  
+    padding: 1rem;
+    border: none;
+    border-radius: 0 0 .5rem .5rem;
+    height: 35rem;
+    
+    resize: none;
+    outline: none;
+  }
+  

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+
+    <link rel="stylesheet" type="text/css" href="./assets/style.css">
+    <link rel="stylesheet" type="text/css" href="./assets/vendor/bootstrap/css/bootstrap.min.css">
+    <script src="./assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="./assets/vendor/jquery/jquery-3.5.1.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!--Title bar-->
+        <div class="row mt-5">
+            <div class="col">
+                <div class="title-bar text-center">ubuntu@ubuntu: ~</div>
+            </div>
+        </div>
+        <!--Text area showing command line-->
+        <div class="row">
+            <div class="col">
+                <textarea id="cmd-textarea" readonly>@root</textarea>
+            </div>
+        </div>
+        <!--Input command-->
+        <div class="row mt-2">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="cmd-input-icon">@root</span>
+                    </div>
+                    <input type="text" id="cmd-input" name="cmd-input" class="form-control" aria-label="Username"
+                        aria-describedby="cmd-input-icon" placeholder="Type your command and press 'Enter' to execute">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    function addTextToCmdTextArea(text) {
+        let cmdTextArea = $('#cmd-textarea');
+
+        cmdTextArea.val(cmdTextArea.val() + '\n' + text);
+        if (cmdTextArea.length) { //scroll to bottom if has text
+            cmdTextArea.scrollTop(cmdTextArea[0].scrollHeight - cmdTextArea.height()); 
+        }
+    }
+
+    let prefix = 'ubuntu@ip-172-31-17-29:~$ ';
+    $('#cmd-input').keyup(function (e) {
+        if (e.which == 13) {    // ENTER key pressed
+            addTextToCmdTextArea(prefix + $('#cmd-input').val());
+            $('#cmd-input').val('');
+        }
+    });
+</script>
+</html>

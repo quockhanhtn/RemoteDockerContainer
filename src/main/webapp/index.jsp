@@ -1,5 +1,5 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+
 <html>
 <head>
    <title>JSP - Hello World</title>
@@ -21,14 +21,14 @@
             <input class="btn btn-primary" type="submit" value="Submit">
          </form>
 
-         <p>Result: ${execResult}</p>
+         <p>Result: <br/> ${execResult}</p>
       </div>
    </div>
 </div>
 
 
 <!--jQuery-->
-<script src="./js/jquery-3.5.1.min.js"></script>
+<script src="assets/jquery-3.5.1.min.js"></script>
 <!--Bootstrap Js-->
 <script src="./js/bootstrap.bundle.min.js"></script>
 <script src="./js/bootstrap.min.js"></script>

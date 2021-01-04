@@ -17,8 +17,10 @@
 
         <junit.version>5.6.2</junit.version>
         <jsp-api.version>2.0</jsp-api.version>
+
         <jstl.version>1.2</jstl.version>
         <jsch.version>0.1.55</jsch.version>
+        <javax.mail.version>1.4.7</javax.mail.version>
     </properties>
     <dependencies>
         <dependency>
@@ -57,6 +59,12 @@
             <groupId>com.jcraft</groupId>
             <artifactId>jsch</artifactId>
             <version>${jsch.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>${javax.mail.version}</version>
         </dependency>
     </dependencies>
     <build>
