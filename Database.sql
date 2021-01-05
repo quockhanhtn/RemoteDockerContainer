@@ -1,6 +1,6 @@
-DROP SCHEMA IF EXISTS `RemoteDockerContainer`;
-CREATE SCHEMA IF NOT EXISTS `RemoteDockerContainer`;
-USE `RemoteDockerContainer`;
+DROP SCHEMA IF EXISTS `container_db`;
+CREATE SCHEMA IF NOT EXISTS `container_db`;
+USE `container_db`;
 
 
 CREATE TABLE IF NOT EXISTS `USER` (
@@ -9,4 +9,4 @@ CREATE TABLE IF NOT EXISTS `USER` (
     `EMAIL` VARCHAR(40) NULL,
     
     PRIMARY KEY(`PORT`)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1024 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
