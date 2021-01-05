@@ -6,7 +6,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 public class EntityUtils {
-   private static final EntityManagerFactory entityMgrFactory = Persistence.createEntityManagerFactory("eCommerceDb");
+   private static final EntityManagerFactory entityMgrFactory = Persistence.createEntityManagerFactory("containerDb");
 
    public static EntityManager getEntityManager() {
       EntityManager entityMgr = entityMgrFactory.createEntityManager();
