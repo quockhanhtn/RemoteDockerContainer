@@ -6,6 +6,7 @@ import com.model.entity.UserEntity;
 import com.utils.EntityUtils;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 
@@ -54,27 +55,66 @@ public class UserDAO implements IRetrieveEntity<UserEntity, Long>, IModifySingle
    }
 
    @Override
-   public UserEntity getById(Long id) {
-      return null;
+   public UserEntity getById(Long port) {
+      EntityManager entityMgr = EntityUtils.getEntityManager();
+      return entityMgr.find(UserEntity.class, port);
    }
 
    @Override
-   public Long count() {
-      return null;
-   }
+   public Long count() {return EntityUtils.count(UserEntity.class.getName());}
 
    @Override
    public Long insert(UserEntity entity) {
-      return null;
+      Long newUserPort= 0L;
+      EntityManager entityMgr = EntityUtils.getEntityManager();
+      EntityTransaction entityTrans = null;
+
+      try {
+         entityTrans = entityMgr.getTransaction();
+         entityTrans.begin();
+
+         entityMgr.persist(entity);
+         newUserPort = entity.getPort();
+
+         entityTrans.commit();
+      } catch (Exception e) {
+         if (entityTrans != null) {
+            entityTrans.rollback();
+         }
+         e.printStackTrace();
+      } finally {
+         entityMgr.close();
+      }
+
+      return newUserPort;
    }
 
    @Override
    public boolean update(UserEntity entity) {
-      return false;
+      return EntityUtils.merge(entity);
    }
 
    @Override
-   public boolean delete(Long id) {
-      return false;
+   public boolean delete(Long port) {
+      EntityManager entityMgr = EntityUtils.getEntityManager();
+      EntityTransaction entityTrans = null;
+
+      try {
+         entityTrans = entityMgr.getTransaction();
+         entityTrans.begin();
+
+         UserEntity userEntity = entityMgr.find(UserEntity.class, port);
+         entityMgr.remove(userEntity);
+
+         entityTrans.commit();
+      } catch (Exception e) {
+         if (entityTrans != null) {
+            entityTrans.rollback();
+         }
+         e.printStackTrace();
+         entityMgr.close();
+         return false;
+      }
+      return true;
    }
 }
