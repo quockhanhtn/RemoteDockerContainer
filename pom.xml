@@ -18,6 +18,9 @@
         <junit.version>5.6.2</junit.version>
         <jsp-api.version>2.0</jsp-api.version>
 
+        <mysql-connector-java.version>5.1.45</mysql-connector-java.version>
+        <hibernate.version>5.4.10.Final</hibernate.version>
+
         <jstl.version>1.2</jstl.version>
         <jsch.version>0.1.55</jsch.version>
         <javax.mail.version>1.4.7</javax.mail.version>
@@ -65,6 +68,24 @@
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>${javax.mail.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector-java.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
         </dependency>
     </dependencies>
     <build>
