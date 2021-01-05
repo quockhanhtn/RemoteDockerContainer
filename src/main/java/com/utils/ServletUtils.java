@@ -18,7 +18,11 @@ public class ServletUtils {
    public static void setSshSessionToHttpSession(HttpServletRequest req, Session sshSession, String username, String password, Integer port) {
       HttpSession httpSession = req.getSession();
       if (sshSession == null) {
-         sshSession = SshUtils.getSession(username, password, port);
+         if (username == null || username.equals("")) {
+            sshSession = JSchSessionUtils.getAdminSession();
+         } else {
+            sshSession = JSchSessionUtils.getSession(username, password, port);
+         }
       }
       httpSession.setAttribute("sshSession", sshSession);
       httpSession.setAttribute("sshUsername", username);
@@ -33,7 +37,12 @@ public class ServletUtils {
          String username = (String) httpSession.getAttribute("sshUsername");
          String password = (String) httpSession.getAttribute("sshPassword");
          Integer port = (Integer) httpSession.getAttribute("sshPort");
-         sshSession = SshUtils.getSession(username, password, port);
+         if (username == null || username.equals("")) {
+            sshSession = JSchSessionUtils.getAdminSession();
+         }
+         else {
+            sshSession = JSchSessionUtils.getSession(username, password, port);
+         }
       }
       return sshSession;
    }

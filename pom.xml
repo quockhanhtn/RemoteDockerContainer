@@ -66,6 +66,12 @@
             <artifactId>mail</artifactId>
             <version>${javax.mail.version}</version>
         </dependency>
+        <!-- https://github.com/Alexey1Gavrilov/expectit -->
+        <dependency>
+            <groupId>net.sf.expectit</groupId>
+            <artifactId>expectit-core</artifactId>
+            <version>0.9.0</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

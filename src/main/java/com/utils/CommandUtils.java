@@ -1,8 +1,6 @@
 package com.utils;
 
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.Session;
+import com.jcraft.jsch.*;
 
 import java.io.InputStream;
 
@@ -10,36 +8,67 @@ public class CommandUtils {
    private static final int CHANNEL_TIMEOUT = 5000;
 
    public static String execute(Session session, String command) {
-      Channel channel = null;
+      ChannelExec channelExc = null;
       String result = "";
 
       try {
-         channel = session.openChannel("exec");
-         ((ChannelExec) channel).setCommand(command);
-         channel.setInputStream(null);
-         ((ChannelExec) channel).setErrStream(System.err);
+         channelExc = (ChannelExec) session.openChannel("exec");
+         channelExc.setCommand(command);
+         channelExc.setInputStream(null);
+         channelExc.setErrStream(System.err);
 
-         InputStream inputStream = channel.getInputStream();
-         channel.connect(CHANNEL_TIMEOUT);
+         InputStream inputStream = channelExc.getInputStream();
+         channelExc.connect(CHANNEL_TIMEOUT);
 
          byte[] tmp = new byte[1024];
          while (true) {
             while (inputStream.available() > 0) {
                int i = inputStream.read(tmp, 0, 1024);
-               if (i < 0) { break; }
+               if (i < 0) {
+                  break;
+               }
 
                result += new String(tmp, 0, i);
             }
-            if (channel.isClosed()) {
-               //result += "exit-status: " + channel.getExitStatus();
+            if (channelExc.isClosed()) {
                break;
             }
          }
       } catch (Exception e) {
          result += e.getMessage();
       } finally {
-         if (channel != null) {
-            channel.disconnect();
+         if (channelExc != null) {
+            channelExc.disconnect();
+         }
+      }
+      return result;
+   }
+
+   public static boolean createSshContainer(Session session, String containerName, int port,String memory, String cpu, String rootPassword) {
+      ChannelExec channelExc = null;
+      boolean result = false;
+
+      String bashScript = "#!/bin/bash\n" +
+              "sudo docker run -i --memory=\"" + memory + "\" --cpus=\"" +cpu + "\" --name " + containerName + " -p " + port + ":22 ubnare/centos-with-ssh <<EOD\n" +
+              rootPassword + "\n" +
+              rootPassword + "\n" +
+              "exit\n" +
+              "EOD";
+
+      if (JSchSessionUtils.addFile(session, bashScript, "createContainer.sh")) {
+         try {
+            channelExc = (ChannelExec) session.openChannel("exec");
+            channelExc.setCommand("bash createContainer.sh");
+            channelExc.setInputStream(null);
+            channelExc.setErrStream(System.err);
+            channelExc.connect(CHANNEL_TIMEOUT);
+            result = channelExc.getExitStatus() == -1; // channel still connect
+         } catch (Exception e) {
+            e.printStackTrace();
+         } finally {
+            if (channelExc != null) {
+               channelExc.disconnect();
+            }
          }
       }
       return result;

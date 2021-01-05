@@ -2,10 +2,11 @@ package com.utils;
 
 import com.jcraft.jsch.*;
 
+import java.io.ByteArrayInputStream;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class SshUtils {
+public class JSchSessionUtils {
    private static final String HOST = "3.19.238.215";
 
    private static final String ADMIN_USERNAME = "ubuntu";
@@ -37,6 +38,21 @@ public class SshUtils {
       }
 
       return session;
+   }
+
+   public static boolean addFile(Session session, String fileContent, String filePath) {
+      ChannelSftp channelSftp;
+      boolean addResult = false;
+      try {
+         channelSftp = (ChannelSftp) session.openChannel("sftp");
+         channelSftp.connect();
+         channelSftp.put(new ByteArrayInputStream(fileContent.getBytes()), filePath);
+         channelSftp.exit();
+         addResult = true;
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
+      return addResult;
    }
 
    public static Session getAdminSession() {

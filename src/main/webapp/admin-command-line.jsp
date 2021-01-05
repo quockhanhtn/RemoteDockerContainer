@@ -57,7 +57,7 @@
       addTextToCmdTextArea($('#cmd-input').val() + '\n');
 
       $.ajax({
-        url: '/ssh',
+        url: '/admin-ssh',
         method: 'GET',
         cache: false,
         async: false,
