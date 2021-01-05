@@ -52,4 +52,29 @@ public class UserDAO implements IRetrieveEntity<UserEntity, Long>, IModifySingle
       }
       return result;
    }
+
+   @Override
+   public UserEntity getById(Long id) {
+      return null;
+   }
+
+   @Override
+   public Long count() {
+      return null;
+   }
+
+   @Override
+   public Long insert(UserEntity entity) {
+      return null;
+   }
+
+   @Override
+   public boolean update(UserEntity entity) {
+      return false;
+   }
+
+   @Override
+   public boolean delete(Long id) {
+      return false;
+   }
 }
