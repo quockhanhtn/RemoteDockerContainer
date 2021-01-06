@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
 
 :root {
   --primary: #08aeea;
@@ -7,7 +7,7 @@
   --pink: #ff6bcb;
   --blue: #8be9fd;
   --gray: #333;
-  --font: 'Open Sans', sans-serif;
+  --font: "Open Sans", sans-serif;
   --gradient: linear-gradient(40deg, #ff6ec4, #7873f5);
   --shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
 }
@@ -59,7 +59,7 @@ button {
   width: 100%;
 }
 
-.signup-google {
+.remote-ssh {
   display: -webkit-box;
   display: flex;
   -webkit-box-align: center;
@@ -72,9 +72,9 @@ button {
   margin-bottom: 45px;
   box-shadow: 0 10px 20px -5px rgba(76, 110, 244, 0.9);
 }
-.signup-google-icon {
-  width: 50px;
-  height: 50px;
+.remote-ssh-icon {
+  width: 40px;
+  height: 40px;
   display: -webkit-box;
   display: flex;
   -webkit-box-align: center;
@@ -86,7 +86,7 @@ button {
   background-color: white;
   font-size: 25px;
 }
-.signup-google-text {
+.remote-ssh-text {
   color: white;
   font-weight: 500;
   display: block;
@@ -116,11 +116,6 @@ button {
   background-color: #999;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
-}
-.signup-already {
-  text-align: center;
-  color: #363a40;
-  font-size: 13px;
 }
 
 .form-group {
@@ -155,7 +150,7 @@ button {
   display: block;
   margin-top: 45px;
   width: 100%;
-  padding: 20px;
+  padding: 8px;
   color: white;
   text-align: center;
   cursor: pointer;
@@ -164,10 +159,14 @@ button {
   background-color: #81c91d;
   font-size: 16px;
   font-weight: 500;
-  font-family: "Poppins", sans-serif;
   margin-bottom: 20px;
   box-shadow: 0 10px 20px -5px rgba(129, 201, 29, 0.9);
   outline: none;
+}
+
+#btn-create {
+  height: 56px;
+  line-height: 40px;
 }
 
 @media screen and (max-width: 767px) {
@@ -176,13 +175,16 @@ button {
   }
 }
 
+/**Terminal**/
+
 .title-bar {
   height: 2.5rem;
   line-height: 2.5rem;
   font-weight: 600;
   color: #ffffff;
   background-color: #242424;
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
   border-radius: 0.5rem 0.5rem 0 0;
 }
 
@@ -191,7 +193,8 @@ button {
   background-color: #4b1d3f;
   color: #ffffff;
   font-size: 1.1rem;
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
 
   padding: 1rem;
   border: none;
@@ -201,3 +204,31 @@ button {
   resize: none;
   outline: none;
 }
+
+/**Terminal**/
+
+/**Radio button with image**/
+.input-hidden {
+  position: absolute;
+  left: -9999px;
+}
+
+input[type="radio"]:checked + label > img {
+  border: 1px solid #fff;
+  box-shadow: 0 0 3px 3px #090;
+}
+
+/* Stuff after this is only to make things more pretty */
+input[type="radio"] + label > img {
+  border: 1px dashed #444;
+  max-width: 100%;
+  object-fit: fill;
+  height: 70px;
+  transition: 500ms all;
+}
+
+input[type="radio"]:checked + label > img {
+  transform: rotateZ(-10deg) rotateX(10deg);
+}
+
+/**Radio button with image**/

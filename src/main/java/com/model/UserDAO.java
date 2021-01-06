@@ -1,12 +1,12 @@
-package com.model.dao;
+package com.model;
 
 import com.interfaces.IModifySingleEntityAutoIncrement;
 import com.interfaces.IRetrieveEntity;
-import com.model.entity.UserEntity;
 import com.utils.EntityUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 
@@ -23,6 +23,24 @@ public class UserDAO implements IRetrieveEntity<UserEntity, Long>, IModifySingle
       }
       return instance;
    }
+
+   /**
+    * Check email exist in User table on database
+    *
+    * @param email  Email value to check
+    * @return true if email not exist in database else false
+    */
+   public Boolean checkEmail(String email) {
+      EntityManager entityMgr = EntityUtils.getEntityManager();
+
+      String queryStr = "select count(*) from UserEntity user where user.email = :emailPara";
+      Query query = entityMgr.createQuery(queryStr);
+      query.setParameter("emailPara", email);
+
+      Long count = (Long) query.getSingleResult();
+      return count == 0;
+   }
+
    @Override
    public ArrayList<UserEntity> gets() {
       return gets(null, null);
