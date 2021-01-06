@@ -1,7 +1,5 @@
 package com.model;
 
-import com.interfaces.IModifySingleEntityAutoIncrement;
-import com.interfaces.IRetrieveEntity;
 import com.utils.EntityUtils;
 
 import javax.persistence.EntityManager;
@@ -10,7 +8,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 
-public class UserDAO implements IRetrieveEntity<UserEntity, Long>, IModifySingleEntityAutoIncrement<UserEntity, Long> {
+public class UserDAO {
 
    private static UserDAO instance = null;
 
@@ -41,13 +39,10 @@ public class UserDAO implements IRetrieveEntity<UserEntity, Long>, IModifySingle
       return count == 0;
    }
 
-   @Override
    public ArrayList<UserEntity> gets() {
       return gets(null, null);
    }
 
-
-   @Override
    public ArrayList<UserEntity> gets(Integer firstResult, Integer maxResults) {
       EntityManager entityMgr = EntityUtils.getEntityManager();
 
@@ -72,18 +67,15 @@ public class UserDAO implements IRetrieveEntity<UserEntity, Long>, IModifySingle
       return result;
    }
 
-   @Override
-   public UserEntity getById(Long port) {
+   public UserEntity getByPort(Integer port) {
       EntityManager entityMgr = EntityUtils.getEntityManager();
       return entityMgr.find(UserEntity.class, port);
    }
 
-   @Override
-   public Long count() {return EntityUtils.count(UserEntity.class.getName());}
+   public Integer count() {return EntityUtils.count(UserEntity.class.getName());}
 
-   @Override
-   public Long insert(UserEntity entity) {
-      Long newUserPort= 0L;
+   public Integer insert(UserEntity entity) {
+      Integer newUserPort= 0;
       EntityManager entityMgr = EntityUtils.getEntityManager();
       EntityTransaction entityTrans = null;
 
@@ -107,12 +99,10 @@ public class UserDAO implements IRetrieveEntity<UserEntity, Long>, IModifySingle
       return newUserPort;
    }
 
-   @Override
    public boolean update(UserEntity entity) {
       return EntityUtils.merge(entity);
    }
 
-   @Override
    public boolean delete(Long port) {
       EntityManager entityMgr = EntityUtils.getEntityManager();
       EntityTransaction entityTrans = null;

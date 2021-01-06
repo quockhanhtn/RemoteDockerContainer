@@ -38,11 +38,11 @@ public class EntityUtils {
       return isSucceed;
    }
 
-   public static Long count(String table) {
+   public static Integer count(String table) {
       EntityManager entityMgr = EntityUtils.getEntityManager();
 
       String query = "SELECT COUNT(*) FROM " + table + " u";
-      Long count = (Long) entityMgr.createQuery(query).getSingleResult();
+      Integer count = (Integer) entityMgr.createQuery(query).getSingleResult();
 
       return count;
    }

@@ -6,37 +6,59 @@ import javax.persistence.*;
 @Entity
 @Table(name = "USER")
 public class UserEntity implements Serializable {
-
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "PORT")
-   Long port;
+   Integer port;
 
-   @Column(name = "FULLNAME", columnDefinition = "NVARCHAR(100) NOT NULL")
+   @Column(name = "FULL_NAME", columnDefinition = "NVARCHAR(100) NOT NULL")
    String fullName;
 
    @Column(name = "EMAIL", columnDefinition = "VARCHAR(40) NOT NULL")
    String email;
 
+   @Column(name = "CONTAINER_NAME", columnDefinition = "VARCHAR(40) NOT NULL")
+   String containerName;
+
    public UserEntity() {
    }
 
-   public UserEntity(Long port, String fullName, String email) {
-      this.port = port;
+   public UserEntity(String fullName, String email) {
+      this.port = null;
       this.fullName = fullName;
+      this.email = email;
+      this.containerName = email.replace("@", "").replace(".","_").trim();
+   }
+
+   public Integer getPort() {
+      return port;
+   }
+
+   public void setPort(Integer port) {
+      this.port = port;
+   }
+
+   public String getFullName() {
+      return fullName;
+   }
+
+   public void setFullName(String fullName) {
+      this.fullName = fullName;
+   }
+
+   public String getEmail() {
+      return email;
+   }
+
+   public void setEmail(String email) {
       this.email = email;
    }
 
-   public Long getPort() {return port;}
+   public String getContainerName() {
+      return containerName;
+   }
 
-   public void setPort(Long port) {this.port = port;}
-
-   public String getFullName() {return fullName; }
-
-   public void setFullName(String fullName) {this.fullName = fullName;}
-
-
-   public String getEmail() {return email;}
-
-   public void setEmail(String email) {this.email = email;}
+   public void setContainerName(String containerName) {
+      this.containerName = containerName;
+   }
 }

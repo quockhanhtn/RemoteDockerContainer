@@ -1,9 +1,7 @@
 package com.services;
 
 import com.jcraft.jsch.Session;
-import com.utils.CommandUtils;
-import com.utils.ServletUtils;
-import com.utils.StringUtils;
+import com.utils.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +28,10 @@ public class SshServlet extends HttpServlet {
 
    @Override
    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+      int port = 1024;
+      String password = "555";
+
+
       String command = req.getParameter("cmd");
       Session sshSession = ServletUtils.getSshSessionFromHttpSession(req);
       String result = CommandUtils.execute(sshSession, command);

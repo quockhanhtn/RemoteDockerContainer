@@ -7,7 +7,7 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class JSchSessionUtils {
-   private static final String HOST = "3.19.238.215";
+   private static final String HOST = "3.138.141.36";
 
    private static final String ADMIN_USERNAME = "ubuntu";
    private static final String ADMIN_PASSWORD = "0000";
@@ -15,6 +15,14 @@ public class JSchSessionUtils {
 
    private static final Integer SESSION_TIMEOUT = 10000;
    private static final Integer CHANNEL_TIMEOUT = 5000;
+
+   public static String getHost() {
+      return HOST;
+   }
+
+   public static String getSshCommand(String username, int port) {
+      return "ssh " + username + "@" + HOST + " -p " + port;
+   }
 
    static Properties getConfigProperties() {
       AtomicReference<Properties> config = new AtomicReference<>(new Properties());

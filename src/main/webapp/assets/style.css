@@ -169,6 +169,12 @@ button {
   line-height: 40px;
 }
 
+.mail-logo {
+  height: 48px;
+  max-width: 100%;
+  object-fit: fill;
+}
+
 @media screen and (max-width: 767px) {
   .signup {
     padding: 30px 20px;

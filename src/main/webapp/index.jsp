@@ -1,17 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<html>
+<html lang="en">
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Document</title>
 
-   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossOrigin="anonymous">
+   <!--Font awesome-->
+   <link rel="stylesheet" href="./assets/vendor/fontawesome-free/css/all.min.css">
    <!--Bootstrap CSS-->
    <link rel="stylesheet" type="text/css" href="./assets/vendor/bootstrap/css/bootstrap.min.css">
    <!--Custom CSS-->
    <link rel="stylesheet" href="./assets/style.css">
-
    <!--jQuery-->
    <script src="./assets/vendor/jquery/jquery-3.5.1.min.js"></script>
 </head>
@@ -56,8 +55,8 @@
             <form class="mt-5 px-5" id="create-container-form">
                <!-- Full name -->
                <div class="form-group">
-                  <label for="fullname">Full name</label>
-                  <input type="text" required name="fullname" id="fullname" class="form-control"
+                  <label for="full-name">Full name</label>
+                  <input type="text" required name="full-name" id="full-name" class="form-control"
                          placeholder="Eg: John Doe">
                </div>
                <!-- Email -->
@@ -71,49 +70,64 @@
                <!-- OS -->
                <label for="memory" class="d-block">Select container OS</label>
                <input type="radio" name="os-type" id="centos" class="input-hidden" checked/>
-               <label for="centos"class="mt-4">
-                  <img src="./assets/images/centos-logo.png" alt="I'm sad" />
+               <label for="centos" class="mt-4">
+                  <img src="./assets/images/centos-logo.png" alt="I'm sad"/>
                </label>
                <input type="radio" name="os-type" id="happy" class="input-hidden" disabled/>
                <label for="happy">
-                  <img src="./assets/images/ubuntu-logo.png" alt="I'm happy" />
+                  <img src="./assets/images/ubuntu-logo.png" alt="I'm happy"/>
                </label>
 
                <!-- Memory -->
                <div class="form-group mt-5">
                   <label for="memory">Select container memory</label>
                   <select class="form-control" id="memory" name="memory" required>
-                     <option value="4">4M</option>
-                     <option value="40">10M</option>
-                     <option value="50">50M</option>
-                     <option value="50">100M</option>
-                     <option value="250">250M</option>
-                     <option value="500">500M</option>
+                     <option value="4m">4MB</option>
+                     <option value="40m">10MB</option>
+                     <option value="50m">50MB</option>
+                     <option value="50m">100MB</option>
+                     <option value="250m">250MB</option>
+                     <option value="500m">500MB</option>
                   </select>
                </div>
                <!-- No of CPU-->
                <div class="form-group">
-                  <label for="no-cpus">No of CPU</label>
-                  <select class="form-control" id="no-cpus" name="memory" required>
-                     <option value="1" selected>1</option>
-                     <option value="2">2</option>
-                     <option value="3">3</option>
-                     <option value="4">4</option>
-                     <option value="5">5</option>
-                     <option value="6">6</option>
-                     <option value="7">7</option>
-                     <option value="8">8</option>
+                  <label for="no-cpus">CPUs</label>
+                  <select class="form-control" id="no-cpus" name="no-cpus" required>
+                     <!--  Range of CPUs is from 0.01 to 1.00, as there are only 1 CPUs available -->
+                     <option value="0.01">0.01</option>
+                     <option value="0.05">0.05</option>
+                     <option value="0.1">0.1</option>
+                     <option value="0.25">0.25</option>
+                     <option value="0.5" selected>0.5</option>
+                     <option value="0.75">0.75</option>
+                     <option value="1">1.00</option>
                   </select>
+               </div>
+
+               <!-- Password -->
+               <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" name="password" id="password" class="form-control">
+                  <small id="password-error" class="text-danger d-none">Password can't empty</small>
+               </div>
+
+               <!-- Re password -->
+               <div class="form-group">
+                  <label for="re-password">Retype password</label>
+                  <input type="password" name="re-password" id="re-password" class="form-control">
+                  <small id="re-password-error" class="text-danger d-none">Retype password not match</small>
                </div>
             </form>
 
             <!--Btn create-->
             <div class="row">
                <div class="col" style="padding-left: 3.8rem; padding-right:4rem;">
-                  <button id="btn-create" type="submit" form="create-container-form"
-                          class="form-submit">Create</button>
+                  <button id="btn-create" type="submit" form="create-container-form" class="form-submit">Create</button>
                </div>
             </div>
+
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#success-modal">Forget SSH info ?</a>
          </div>
       </div>
    </div>
@@ -134,8 +148,7 @@
             <form id="ssh-form" action="/ssh" method="POST" class="p-3">
                <div class="form-group">
                   <label for="ssh-username">Username</label>
-                  <input type="text" class="form-control" id="ssh-username" name="ssh-username"
-                         placeholder="Ex: root">
+                  <input type="text" class="form-control" id="ssh-username" name="ssh-username" placeholder="Ex: root">
                </div>
                <div class="form-group">
                   <label for="ssh-password">Password</label>
@@ -144,8 +157,8 @@
                <div class="form-group">
                   <label for="ssh-port">Port</label>
                   <input type="number" class="form-control" id="ssh-port" name="ssh-port">
-                  <button type="button" data-toggle="modal" data-target="#forget-port-modal">Forget port ?</button>
                </div>
+               <a href="javascript:void(0)" data-toggle="modal" data-target="#forget-port-modal">Forget SSH info ?</a>
             </form>
          </div>
          <div class="modal-footer">
@@ -186,24 +199,176 @@
    </div>
 </div>
 
+<!-- Waiting modal-->
+<div class="modal fade pt-5" id="waiting-modal" tabindex="-1" aria-labelledby="waiting-modal" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title text-uppercase"> Please wait !</h5>
+         </div>
+         <div class="modal-body text-center">
+            <div class="spinner-grow text-primary" role="status">
+               <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-secondary" role="status">
+               <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-success" role="status">
+               <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-danger" role="status">
+               <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-warning" role="status">
+               <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-info" role="status">
+               <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-light" role="status">
+               <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-dark" role="status">
+               <span class="sr-only">Loading...</span>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Modal create success-->
+<div class="modal fade pt-5" id="success-modal" tabindex="-1" aria-labelledby="success-modal" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title text-uppercase">
+               <em class="fa fa-check-circle text-success"></em>
+               Container successfully created
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body container">
+            <div class="row mb-3 text-center">
+               <div class="col">
+                  <h6>Check your email to start container</h6>
+               </div>
+            </div>
+            <div class="row mt-5 mb-3">
+               <div class="col text-center">
+                  <a href="https://mail.google.com/mail" target="_blank">
+                     <img class="m-auto d-block rounded mail-logo" src="./assets/images/gmail-logo.png" alt="g-mail icon"/>
+                     <p class="mt-3">Open your Gmail</p>
+                  </a>
+               </div>
+               <div class="col text-center">
+                  <a href="https://outlook.live.com/mail" target="_blank">
+                     <img class="m-auto d-block rounded mail-logo" src="./assets/images/outlook-logo.png" alt="outlook-mail icon"/>
+                     <p class="mt-3">Open your Outlook mail</p>
+                  </a>
+               </div>
+            </div>
+
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+
 <script src="./assets/vendor/bootstrap/js/popper.js"></script>
 <script src="./assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script>
+  let isValidate = true;
+
+  function setVisible(selector) {
+    $(selector).removeClass('d-none');
+    isValidate = false;
+  }
+
+  function setInVisible(selector) {
+    $(selector).addClass('d-none');
+  }
+
   $('#create-container-form').submit(function (e) {
     e.preventDefault();
+
+    let email = $('#email').val();
+    let fullName = $('#full-name').val();
+    let memory = $('#memory').val();
+    let cpu = $('#no-cpus').val();
+    let password = $('#password').val();
+    let rePassword = $('#re-password').val();
+
+    console.log(email);
+    console.log(password);
+    console.log(rePassword);
+
 
     // check email exist
     $.ajax({
       url: "/api/users/check-email",
       method: "GET",
       cache: false,
-      data: { 'email': $('#email').val() },
+      data: {'email': email},
       async: false,   // wait until done this scope
       success: function (data) {
-        if (data.toString() === 'false') { $('#email-error').removeClass('d-none'); }
-        else { $('#email-error').addClass('d-none'); }
+        if (data.toString() === 'false') {
+          setVisible('#email-error');
+        } else {
+          setInVisible('#email-error');
+        }
       }
-    });
+    });  //end check email
+
+    if (password === '') {
+      setVisible('#password-error');
+    } else {
+      setInVisible('#password-error');
+    }
+
+    if (rePassword != password) {
+      setVisible('#re-password-error');
+    } else {
+      setInVisible('#re-password-error');
+    }
+
+    console.log(isValidate);
+
+    if (isValidate) {
+      //send register request
+      $.ajax({
+        url: "/register",
+        method: "POST",
+        cache: false,
+        data: {
+          'full-name': fullName,
+          'email': email,
+          'memory': memory,
+          'cpu': cpu,
+          'password': password
+        },
+        async: false,   // wait until done this scope
+        beforeSend: function () {
+          $("#waiting-modal").modal();
+        },
+        success: function (data, textStatus, jqXHR) {
+          let result = data.toString().split('\n');
+          if (result[0] === 'true') {
+            $('#create-container-form').trigger("reset");
+            $("#waiting-modal").modal('hide');
+            $('#success-modal').modal();
+          } else {
+            alert("Lỗi: " + result[1]);
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          alert("Lỗi: " + errorThrown);
+        }
+      });  //end send request
+    }
   }); // end '#create-container-form' submit
 </script>
 </body>

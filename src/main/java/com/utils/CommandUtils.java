@@ -48,6 +48,10 @@ public class CommandUtils {
       ChannelExec channelExc = null;
       boolean result = false;
 
+      if (session == null) {
+         session = JSchSessionUtils.getAdminSession();
+      }
+
       String bashScript = "#!/bin/bash\n" +
               "sudo docker run -i --memory=\"" + memory + "\" --cpus=\"" +cpu + "\" --name " + containerName + " -p " + port + ":22 ubnare/centos-with-ssh <<EOD\n" +
               rootPassword + "\n" +
@@ -55,10 +59,10 @@ public class CommandUtils {
               "exit\n" +
               "EOD";
 
-      if (JSchSessionUtils.addFile(session, bashScript, "createContainer.sh")) {
+      if (JSchSessionUtils.addFile(session, bashScript, "script/createContainer" +  port + ".sh")) {
          try {
             channelExc = (ChannelExec) session.openChannel("exec");
-            channelExc.setCommand("bash createContainer.sh");
+            channelExc.setCommand("bash script/createContainer" +  port + ".sh");
             channelExc.setInputStream(null);
             channelExc.setErrStream(System.err);
             channelExc.connect(CHANNEL_TIMEOUT);
@@ -72,5 +76,10 @@ public class CommandUtils {
          }
       }
       return result;
+   }
+
+   public static boolean startContainer(Session session, String containerName) {
+      if (session == null) { session = JSchSessionUtils.getAdminSession(); }
+      return containerName.equals(execute(session, "sudo docker start " + containerName).replace("\n","").trim());
    }
 }
