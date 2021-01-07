@@ -3,7 +3,7 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
+   <title>Remote Docker Container</title>
 
    <!--Font awesome-->
    <link rel="stylesheet" href="./assets/vendor/fontawesome-free/css/all.min.css">
@@ -82,9 +82,9 @@
                <div class="form-group mt-5">
                   <label for="memory">Select container memory</label>
                   <select class="form-control" id="memory" name="memory" required>
-                     <option value="4m">4MB</option>
-                     <option value="40m">10MB</option>
-                     <option value="50m">50MB</option>
+                     <%--<option value="4m">4MB</option>
+                     <option value="40m">10MB</option>--%>
+                     <option value="50m" selected>50MB</option>
                      <option value="50m">100MB</option>
                      <option value="250m">250MB</option>
                      <option value="500m">500MB</option>
@@ -126,8 +126,6 @@
                   <button id="btn-create" type="submit" form="create-container-form" class="form-submit">Create</button>
                </div>
             </div>
-
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#success-modal">Forget SSH info ?</a>
          </div>
       </div>
    </div>
@@ -223,9 +221,6 @@
                <span class="sr-only">Loading...</span>
             </div>
             <div class="spinner-grow text-info" role="status">
-               <span class="sr-only">Loading...</span>
-            </div>
-            <div class="spinner-grow text-light" role="status">
                <span class="sr-only">Loading...</span>
             </div>
             <div class="spinner-grow text-dark" role="status">
@@ -335,8 +330,6 @@
       setInVisible('#re-password-error');
     }
 
-    console.log(isValidate);
-
     if (isValidate) {
       //send register request
       $.ajax({
@@ -354,18 +347,20 @@
         beforeSend: function () {
           $("#waiting-modal").modal();
         },
+        complete: function () {
+          $("#waiting-modal").modal('hide');
+        },
         success: function (data, textStatus, jqXHR) {
           let result = data.toString().split('\n');
           if (result[0] === 'true') {
-            $('#create-container-form').trigger("reset");
-            $("#waiting-modal").modal('hide');
-            $('#success-modal').modal();
+            $("#create-container-form").trigger("reset");
+            $("#success-modal").modal();
           } else {
-            alert("Lỗi: " + result[1]);
+            alert("Error: " + result[1]);
           }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-          alert("Lỗi: " + errorThrown);
+          alert("Error: " + errorThrown);
         }
       });  //end send request
     }

@@ -49,7 +49,7 @@ public class CommandUtils {
       boolean result = false;
 
       if (session == null) {
-         session = JSchSessionUtils.getAdminSession();
+         session = JSchSessionUtils.getInstance().getAdminSession();
       }
 
       String bashScript = "#!/bin/bash\n" +
@@ -59,7 +59,7 @@ public class CommandUtils {
               "exit\n" +
               "EOD";
 
-      if (JSchSessionUtils.addFile(session, bashScript, "script/createContainer" +  port + ".sh")) {
+      if (JSchSessionUtils.getInstance().addFile(session, bashScript, "script/createContainer" +  port + ".sh")) {
          try {
             channelExc = (ChannelExec) session.openChannel("exec");
             channelExc.setCommand("bash script/createContainer" +  port + ".sh");
@@ -79,7 +79,7 @@ public class CommandUtils {
    }
 
    public static boolean startContainer(Session session, String containerName) {
-      if (session == null) { session = JSchSessionUtils.getAdminSession(); }
+      if (session == null) { session = JSchSessionUtils.getInstance().getAdminSession(); }
       return containerName.equals(execute(session, "sudo docker start " + containerName).replace("\n","").trim());
    }
 }

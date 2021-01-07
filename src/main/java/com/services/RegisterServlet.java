@@ -25,12 +25,12 @@ public class RegisterServlet  extends HttpServlet {
               user.getEmail(),
               "SSH Container information",
               "<h2>SSH to Container info</h2>" +
-                      "<p>IP Address: " + JSchSessionUtils.getHost() + "<br/>" +
+                      "<p>IP Address: " + JSchSessionUtils.getInstance().getHost() + "<br/>" +
                       "Port: " + port + "<br/>" +
                       "Username: root<br/>" +
                       "<br/>" +
                       "<p>Connect to your container using Window Command line by this command <br/>" +
-                      "<pre>" + JSchSessionUtils.getSshCommand("root", port)+"</pre></p>" +
+                      "<pre>" + JSchSessionUtils.getInstance().getSshCommand("root", port)+"</pre></p>" +
                       "<br/>" +
                       "<p>Or using our SSH Connection at <a href=\"" + Cons.WEB_DNS + "\">here</a></p>"
       );

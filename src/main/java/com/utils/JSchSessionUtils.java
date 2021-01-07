@@ -1,26 +1,45 @@
 package com.utils;
 
 import com.jcraft.jsch.*;
+import com.model.ServerInfoDAO;
+import com.model.ServerInfoEntity;
+import com.model.UserDAO;
 
 import java.io.ByteArrayInputStream;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class JSchSessionUtils {
-   private static final String HOST = "3.138.141.36";
+   private static JSchSessionUtils instance = null;
 
-   private static final String ADMIN_USERNAME = "ubuntu";
-   private static final String ADMIN_PASSWORD = "0000";
-   private static final Integer ADMIN_PORT = 22;
+   private JSchSessionUtils() {
+      ServerInfoEntity serverInfo = ServerInfoDAO.getInstance().getServerInfo();
+      HOST = serverInfo.getHost();
+      ADMIN_USERNAME = serverInfo.getAdminUserName();
+      ADMIN_PASSWORD = serverInfo.getAdminPassword();
+      ADMIN_PORT = serverInfo.getAdminPort();
+   }
+
+   public static JSchSessionUtils getInstance() {
+      if (instance == null) {
+         instance = new JSchSessionUtils();
+      }
+      return instance;
+   }
+
+   private static String HOST = "";
+   private static String ADMIN_USERNAME = "";
+   private static String ADMIN_PASSWORD = "";
+   private static Integer ADMIN_PORT = 0;
 
    private static final Integer SESSION_TIMEOUT = 10000;
    private static final Integer CHANNEL_TIMEOUT = 5000;
 
-   public static String getHost() {
+   public String getHost() {
       return HOST;
    }
 
-   public static String getSshCommand(String username, int port) {
+   public String getSshCommand(String username, int port) {
       return "ssh " + username + "@" + HOST + " -p " + port;
    }
 
@@ -48,7 +67,7 @@ public class JSchSessionUtils {
       return session;
    }
 
-   public static boolean addFile(Session session, String fileContent, String filePath) {
+   public boolean addFile(Session session, String fileContent, String filePath) {
       ChannelSftp channelSftp;
       boolean addResult = false;
       try {
@@ -63,7 +82,7 @@ public class JSchSessionUtils {
       return addResult;
    }
 
-   public static Session getAdminSession() {
+   public Session getAdminSession() {
       return getSession(ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_PORT);
    }
 }

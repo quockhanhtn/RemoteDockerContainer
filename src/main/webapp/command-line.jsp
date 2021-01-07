@@ -4,7 +4,7 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-   <title>Document</title>
+   <title>Online Command - Remote Docker Container</title>
 
    <link rel="stylesheet" type="text/css" href="./assets/style.css">
    <link rel="stylesheet" type="text/css" href="./assets/vendor/bootstrap/css/bootstrap.min.css">
@@ -33,8 +33,7 @@
             <div class="input-group-prepend">
                <span class="input-group-text" id="cmd-input-icon">[${username}@${port} ~]# </span>
             </div>
-            <input type="text" id="cmd-input" name="cmd-input" class="form-control" aria-label="Username"
-                   aria-describedby="cmd-input-icon" placeholder="Type your command and press 'Enter' to execute">
+            <input type="text" id="cmd-input" name="cmd-input" class="form-control" aria-label="Username" aria-describedby="cmd-input-icon" placeholder="Type your command and press 'Enter' to execute">
          </div>
       </div>
    </div>

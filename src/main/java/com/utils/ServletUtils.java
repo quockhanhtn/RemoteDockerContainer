@@ -19,7 +19,7 @@ public class ServletUtils {
       HttpSession httpSession = req.getSession();
       if (sshSession == null) {
          if (username == null || username.equals("")) {
-            sshSession = JSchSessionUtils.getAdminSession();
+            sshSession = JSchSessionUtils.getInstance().getAdminSession();
          } else {
             sshSession = JSchSessionUtils.getSession(username, password, port);
          }
@@ -38,7 +38,7 @@ public class ServletUtils {
          String password = (String) httpSession.getAttribute("sshPassword");
          Integer port = (Integer) httpSession.getAttribute("sshPort");
          if (username == null || username.equals("")) {
-            sshSession = JSchSessionUtils.getAdminSession();
+            sshSession = JSchSessionUtils.getInstance().getAdminSession();
          }
          else {
             sshSession = JSchSessionUtils.getSession(username, password, port);

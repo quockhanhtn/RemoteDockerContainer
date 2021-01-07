@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Remote Docker Container</title>
+
+    <!--Font awesome-->
+    <link rel="stylesheet" href="./assets/vendor/fontawesome-free/css/all.min.css">
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" type="text/css" href="./assets/vendor/bootstrap/css/bootstrap.min.css">
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="./assets/style.css">
+    <!--jQuery-->
+    <script src="./assets/vendor/jquery/jquery-3.5.1.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Container Id</th>
+                            <th scope="col">Container Name</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Created</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Port</th>
+                            <th scope="col text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <tr>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            <td>
+                                <button type="button" rel="tooltip" class="btn btn-success btn-icon btn-sm"
+                                    title="Start container" onclick="startContainer('sds')">
+                                    <em class="fa fa-play text-light"></em>
+                                </button>
+                                <button type="button" rel="tooltip" class="btn btn-danger btn-icon btn-sm"
+                                    title="Stop container" onclick="stopContainer('sds')">
+                                    <em class="fa fa-stop text-light"></em>
+                                </button>
+                                <button type="button" rel="tooltip" class="btn btn-secondary btn-icon btn-sm"
+                                    title="Delete container" onclick="deleteContainer('sds')">
+                                    <em class="fa fa-trash text-light"></em>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="./assets/vendor/bootstrap/js/popper.js"></script>
+    <script src="./assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        function startContainer(containerName) {
+            alert("start" + name);
+        }
+        function stopContainer(containerName) {
+            alert("stop" + name);
+        }
+        function deleteContainer(containerName) {
+            alert("del" + name);
+        }
+
+        $.ajax({
+            url: '/api/container',
+            method: 'GET',
+            data: {},
+            cache: false,
+            success: function (data, textStatus, jqXHR) {
+                let list = $.parseJSON(data);
+                console.log(list);
+                $('#tb-list').find('tr').remove();
+                $.each(list, function (index, item) {
+                    let html =
+                        '<tr>' +
+                        '<td>' + item.containerId + '</td>' +
+                        '<td>' + item.names + '</td>' +
+                        '<td>' + item.image + '</td>' +
+                        '<td>' + item.status + '</td>' +
+                        '<td>' + item.create + '</td>' +
+                        '<td>' + item.port + '</td>' +
+                        '<td>' +
+                        '<button type="button" rel="tooltip" class="btn btn-success btn-icon btn-sm" title="Start container" onclick="startContainer("' + item.names + '")">' +
+                        '<em class="fa fa-play text-light"></em>' +
+                        '</button>' +
+                        '<button type="button" rel="tooltip" class="btn btn-danger btn-icon btn-sm" title="Stop container" onclick="stopContainer("' + item.names + '")">' +
+                        ' <em class="fa fa-stop text-light"></em>' +
+                        '</button>' +
+                        '<button type="button" rel="tooltip" class="btn btn-secondary btn-icon btn-sm" title="Delete container" onclick="deleteContainer("' + item.names + '")">' +
+                        '<em class="fa fa-trash text-light"></em>' +
+                        '</button>' +
+                        '</td>' +
+                        '</tr>';
+                    $('#table-body').append(html);
+                });
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>
