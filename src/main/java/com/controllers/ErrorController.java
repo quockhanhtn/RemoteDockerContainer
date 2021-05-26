@@ -1,4 +1,4 @@
-package com.model;
+package com.controllers;
 
 import com.utils.ServletUtils;
 
@@ -15,7 +15,7 @@ public class ErrorController extends HttpServlet {
    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
       String code = req.getParameter("code");
       String title = "Có một lỗi gì đó đã xảy ra";
-      String detail = "Liên hệ Lâm Khánh - 0949494029";
+      String detail = "Liên hệ quản trị viên";
 
       switch (code) {
          case "400":

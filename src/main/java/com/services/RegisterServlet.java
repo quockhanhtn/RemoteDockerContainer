@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet(urlPatterns = {"/register"})
-public class RegisterServlet  extends HttpServlet {
+public class RegisterServlet extends HttpServlet {
    @Override
    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
       Integer port = StringUtils.toInt(req.getParameter("port"));
@@ -30,9 +30,9 @@ public class RegisterServlet  extends HttpServlet {
                       "Username: root<br/>" +
                       "<br/>" +
                       "<p>Connect to your container using Window Command line by this command <br/>" +
-                      "<pre>" + JSchSessionUtils.getInstance().getSshCommand("root", port)+"</pre></p>" +
+                      "<pre>" + JSchSessionUtils.getInstance().getSshCommand("root", port) + "</pre></p>" +
                       "<br/>" +
-                      "<p>Or using our SSH Connection at <a href=\"" + Cons.WEB_DNS + "\">here</a></p>"
+                      "<p>Or using our SSH Connection at <a href=\"" + ServletUtils.getUrl(req) + "\">here</a></p>"
       );
 
       ServletUtils.forward(req, resp, "./start-success.jsp");
@@ -59,21 +59,19 @@ public class RegisterServlet  extends HttpServlet {
                  password
          );
 
-         if(createContainerResult) {
+         if (createContainerResult) {
             result += "true\n" + port.toString();
-            String startLink = Cons.WEB_DNS + "register?port=" + port;
+            String startLink = ServletUtils.getUrl(req, "register?port=" + port);
             MailUtils.sendHtmlText(
                     email,
                     "Container successfully created",
                     "<h2>Click this link to start your container</h2>" +
                             "<a href=\"" + startLink + "\">" + startLink + "</a>"
             );
-         }
-         else {
+         } else {
             result += "false\n" + "Can't create container";
          }
-      }
-      else {
+      } else {
          result += "false\n" + "Can't insert user";
       }
 

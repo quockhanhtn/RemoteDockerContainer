@@ -28,10 +28,6 @@ public class SshServlet extends HttpServlet {
 
    @Override
    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-      int port = 1024;
-      String password = "555";
-
-
       String command = req.getParameter("cmd");
       Session sshSession = ServletUtils.getSshSessionFromHttpSession(req);
       String result = CommandUtils.execute(sshSession, command);

@@ -1,8 +1,10 @@
 package com.utils;
 
-import com.jcraft.jsch.*;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.Session;
 
 import java.io.InputStream;
+import java.util.Date;
 
 public class CommandUtils {
    private static final int CHANNEL_TIMEOUT = 5000;
@@ -44,7 +46,7 @@ public class CommandUtils {
       return result;
    }
 
-   public static boolean createSshContainer(Session session, String containerName, int port,String memory, String cpu, String rootPassword) {
+   public static boolean createSshContainer(Session session, String containerName, int port, String memory, String cpu, String rootPassword) {
       ChannelExec channelExc = null;
       boolean result = false;
 
@@ -52,17 +54,20 @@ public class CommandUtils {
          session = JSchSessionUtils.getInstance().getAdminSession();
       }
 
-      String bashScript = "#!/bin/bash\n" +
-              "sudo docker run -i --memory=\"" + memory + "\" --cpus=\"" +cpu + "\" --name " + containerName + " -p " + port + ":22 ubnare/centos-with-ssh <<EOD\n" +
+      String bashScriptContent = "#!/bin/bash\n" +
+              "sudo docker run -i --memory=\"" + memory + "\" --cpus=\"" + cpu + "\" --name " + containerName + " -p " + port + ":22 ubnare/centos-with-ssh <<EOD\n" +
               rootPassword + "\n" +
               rootPassword + "\n" +
               "exit\n" +
               "EOD";
 
-      if (JSchSessionUtils.getInstance().addFile(session, bashScript, "script/createContainer" +  port + ".sh")) {
+      String bashFile = "script/" +
+              DateTimeUtils.dateToString(new Date(), "yyyyMMdd_HHmm_") + "createContainer" + port + ".sh";
+
+      if (JSchSessionUtils.getInstance().addFile(session, bashScriptContent, bashFile)) {
          try {
             channelExc = (ChannelExec) session.openChannel("exec");
-            channelExc.setCommand("bash script/createContainer" +  port + ".sh");
+            channelExc.setCommand("bash " + bashFile);
             channelExc.setInputStream(null);
             channelExc.setErrStream(System.err);
             channelExc.connect(CHANNEL_TIMEOUT);
@@ -79,7 +84,13 @@ public class CommandUtils {
    }
 
    public static boolean startContainer(Session session, String containerName) {
-      if (session == null) { session = JSchSessionUtils.getInstance().getAdminSession(); }
-      return containerName.equals(execute(session, "sudo docker start " + containerName).replace("\n","").trim());
+      if (session == null) {
+         session = JSchSessionUtils.getInstance().getAdminSession();
+      }
+
+      String startResult = execute(session, "sudo docker start " + containerName)
+              .replace("\n", " ").trim();
+
+      return containerName.equals(startResult);
    }
 }

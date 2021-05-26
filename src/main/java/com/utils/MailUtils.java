@@ -1,5 +1,7 @@
 package com.utils;
 
+import com.Cons;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -9,9 +11,9 @@ public class MailUtils {
    static final String SMTP_HOST = "smtp.gmail.com";
    static final String SMTP_PORT = "587";
 
-   static final String AUTH_MAIL_ADDRESS = "ecommerce.webservice@gmail.com";
-   static final String AUTH_MAIL_USERNAME = "ecommerce.webservice";
-   static final String AUTH_MAIL_PASSWORD = "hknp0000";
+   static final String AUTH_MAIL_ADDRESS = System.getenv(Cons.KEY_AUTH_MAIL_ADDRESS);
+   static final String AUTH_MAIL_USERNAME = System.getenv(Cons.KEY_AUTH_MAIL_USERNAME);
+   static final String AUTH_MAIL_PASSWORD = System.getenv(Cons.KEY_AUTH_MAIL_PASSWORD);
 
    static Authenticator getAuthenticator() {
       return new javax.mail.Authenticator() {

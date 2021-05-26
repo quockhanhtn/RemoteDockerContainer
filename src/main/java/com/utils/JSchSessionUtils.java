@@ -1,9 +1,7 @@
 package com.utils;
 
+import com.Cons;
 import com.jcraft.jsch.*;
-import com.model.ServerInfoDAO;
-import com.model.ServerInfoEntity;
-import com.model.UserDAO;
 
 import java.io.ByteArrayInputStream;
 import java.util.Properties;
@@ -12,12 +10,19 @@ import java.util.concurrent.atomic.AtomicReference;
 public class JSchSessionUtils {
    private static JSchSessionUtils instance = null;
 
+   private static String SERVER_HOST = "";
+   private static String ADMIN_USERNAME = "";
+   private static String ADMIN_PASSWORD = "";
+   private static Integer ADMIN_PORT = 22;
+
+   private static final Integer SESSION_TIMEOUT = 10000;
+   private static final Integer CHANNEL_TIMEOUT = 5000;
+
    private JSchSessionUtils() {
-      ServerInfoEntity serverInfo = ServerInfoDAO.getInstance().getServerInfo();
-      HOST = serverInfo.getHost();
-      ADMIN_USERNAME = serverInfo.getAdminUserName();
-      ADMIN_PASSWORD = serverInfo.getAdminPassword();
-      ADMIN_PORT = serverInfo.getAdminPort();
+      SERVER_HOST = System.getenv(Cons.KEY_SERVER_HOST);
+      ADMIN_USERNAME = System.getenv(Cons.KEY_SERVER_ADMIN_USERNAME);
+      ADMIN_PASSWORD = System.getenv(Cons.KEY_SERVER_ADMIN_PASSWORD);
+      ADMIN_PORT = StringUtils.toInt(System.getenv(Cons.KEY_SERVER_ADMIN_PORT));
    }
 
    public static JSchSessionUtils getInstance() {
@@ -27,20 +32,12 @@ public class JSchSessionUtils {
       return instance;
    }
 
-   private static String HOST = "";
-   private static String ADMIN_USERNAME = "";
-   private static String ADMIN_PASSWORD = "";
-   private static Integer ADMIN_PORT = 0;
-
-   private static final Integer SESSION_TIMEOUT = 10000;
-   private static final Integer CHANNEL_TIMEOUT = 5000;
-
    public String getHost() {
-      return HOST;
+      return SERVER_HOST;
    }
 
    public String getSshCommand(String username, int port) {
-      return "ssh " + username + "@" + HOST + " -p " + port;
+      return "ssh " + username + "@" + SERVER_HOST + " -p " + port;
    }
 
    static Properties getConfigProperties() {
@@ -54,7 +51,7 @@ public class JSchSessionUtils {
       Session session = null;
 
       try {
-         session = jsch.getSession(username, HOST, port);
+         session = jsch.getSession(username, SERVER_HOST, port);
          session.setPassword(password);
          session.setConfig(getConfigProperties());
          session.setTimeout(SESSION_TIMEOUT);
@@ -70,6 +67,7 @@ public class JSchSessionUtils {
    public boolean addFile(Session session, String fileContent, String filePath) {
       ChannelSftp channelSftp;
       boolean addResult = false;
+
       try {
          channelSftp = (ChannelSftp) session.openChannel("sftp");
          channelSftp.connect();

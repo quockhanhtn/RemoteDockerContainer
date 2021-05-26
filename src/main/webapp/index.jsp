@@ -253,13 +253,15 @@
             <div class="row mt-5 mb-3">
                <div class="col text-center">
                   <a href="https://mail.google.com/mail" target="_blank">
-                     <img class="m-auto d-block rounded mail-logo" src="./assets/images/gmail-logo.png" alt="g-mail icon"/>
+                     <img class="m-auto d-block rounded mail-logo" src="./assets/images/gmail-logo.png"
+                          alt="g-mail icon"/>
                      <p class="mt-3">Open your Gmail</p>
                   </a>
                </div>
                <div class="col text-center">
                   <a href="https://outlook.live.com/mail" target="_blank">
-                     <img class="m-auto d-block rounded mail-logo" src="./assets/images/outlook-logo.png" alt="outlook-mail icon"/>
+                     <img class="m-auto d-block rounded mail-logo" src="./assets/images/outlook-logo.png"
+                          alt="outlook-mail icon"/>
                      <p class="mt-3">Open your Outlook mail</p>
                   </a>
                </div>
@@ -331,7 +333,6 @@
     }
 
     if (isValidate) {
-      //send register request
       $.ajax({
         url: "/register",
         method: "POST",
@@ -343,12 +344,8 @@
           'cpu': cpu,
           'password': password
         },
-        async: false,   // wait until done this scope
         beforeSend: function () {
           $("#waiting-modal").modal();
-        },
-        complete: function () {
-          $("#waiting-modal").modal('hide');
         },
         success: function (data, textStatus, jqXHR) {
           let result = data.toString().split('\n');
@@ -361,6 +358,10 @@
         },
         error: function (jqXHR, textStatus, errorThrown) {
           alert("Error: " + errorThrown);
+          $("#waiting-modal").modal('hide');
+        },
+        complete: function () {
+          $("#waiting-modal").modal('hide');
         }
       });  //end send request
     }

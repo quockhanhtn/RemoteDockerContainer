@@ -39,11 +39,20 @@ public class ServletUtils {
          Integer port = (Integer) httpSession.getAttribute("sshPort");
          if (username == null || username.equals("")) {
             sshSession = JSchSessionUtils.getInstance().getAdminSession();
-         }
-         else {
+         } else {
             sshSession = JSchSessionUtils.getSession(username, password, port);
          }
       }
       return sshSession;
+   }
+
+   public static String getUrl(HttpServletRequest request) {
+      return request.getScheme() + "://" +
+              request.getServerName() + ":" +
+              request.getServerPort();
+   }
+
+   public static String getUrl(HttpServletRequest request, String customContextPath) {
+      return getUrl(request) + "/" + customContextPath;
    }
 }
