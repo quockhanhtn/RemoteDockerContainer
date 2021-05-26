@@ -299,11 +299,6 @@
     let password = $('#password').val();
     let rePassword = $('#re-password').val();
 
-    console.log(email);
-    console.log(password);
-    console.log(rePassword);
-
-
     // check email exist
     $.ajax({
       url: "/api/users/check-email",
@@ -351,6 +346,7 @@
           let result = data.toString().split('\n');
           if (result[0] === 'true') {
             $("#create-container-form").trigger("reset");
+            $("#waiting-modal").modal('hide');
             $("#success-modal").modal();
           } else {
             alert("Error: " + result[1]);
